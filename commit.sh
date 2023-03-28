@@ -1,10 +1,12 @@
 #!/bin/bash
 
-if [[ $# < 3 || $# > 3 ]]
-then
-    echo "format error ./commit.sh <repo-name> -m <message>"
-else
-    python3 commit.py $1 $3
+# if [[ $# < 3 || $# > 3 ]]
+# then
+#     echo "format error ./commit.sh <repo-name> -m <message>"
+# else
+    # python3 commit.py $1 $3 ${pwd}
+
+python3 commit.py "$(pwd)"
 
 #    if [[ -d ".repo" ]]
 #    then
@@ -26,4 +28,4 @@ else
 #        fi
 #
 #    fi
-fi  
+# fi  
