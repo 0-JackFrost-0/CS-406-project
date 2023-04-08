@@ -1,8 +1,10 @@
 #!/bin/bash
 # command to use ./blob.sh <path_of_file_from_.repo>
-
+# echo $1
+# cd ..
 if [[ -d ".repo" ]]
 then
+
     if [[ -f $1 ]]
     then
             FILE=$1
