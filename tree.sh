@@ -2,40 +2,45 @@
 
 # give path relative to .repo
 
-pth=$(pwd)/$1
-root_pth=$(pwd)
+pth=$1
+# root_pth=$(pwd)
+root_pth=$2
 #echo $pth
 if [[ -d ".repo" ]]
 then
     if [[ -d $1 ]]
     then
-        touch .repo/$1.txt
+        fu=$(basename -- "$1")
+        # echo $f
+        touch "${root_pth}/.repo/$fu.txt"
         cd $1
         for FILE in *; do
+            # echo $FILE
             if [[ -f $FILE ]]; then
-                # checksum="$(sha1sum $FILE)"
-                # IFS=' ' read -ra hash <<< "$checksum"
-                # cd ../.repo/snapshots/
-                # if [[ -d ${hash:0:2} && -f ${hash:0:2}/${hash:2} ]]; then
-                #     # echo "File already committed" $FILE
-                #     continue
-                # else
-                #     # echo "File updated/new" $FILE
-                #     ./blob.sh $pth/FILE
-                # fi
-                # echo "-b" $hash $FILE >> "${root_pth}/.repo/$1.txt"
-                sh ./blob.sh $1/$FILE
-                # output=$(./blob.sh $1/$FILE)
-                # IFS='\n' read -ra dir_hash <<< "$output"
-                echo "-b" $output $FILE >> "${root_pth}/.repo/$1.txt"
+                cd "$root_pth"
+                output=$(bash "${root_pth}/blob.sh" $1/$FILE)
+                cd "$root_pth/$1"
+                # echo $root_pth
+                # cd $1
+                # echo $output
+                echo "$output" >> "${root_pth}/.repo/$fu.txt"
+                # echo $"\n" >> "${root_pth}/.repo/$fu.txt"
             elif [[ -d $FILE ]]; then
-                output=$(./tree.sh $1/$FILE)
+                # echo "YAYY" $FILE
+                cd "$root_pth"
+                # echo $(pwd)
+                output=$(bash "${root_pth}/tree.sh" $1/$FILE "$root_pth")
+                cd "$root_pth/$1"
+                # touch waat.txt
+                # echo $output >> waat.txt
                 # IFS='\n' read -ra dir_hash <<< "$output"
-                echo "-t" $output $FILE >> "${root_pth}/.repo/$1.txt"
+                echo "$output" >> "${root_pth}/.repo/$fu.txt"
+                # echo $"\n" >> "${root_pth}/.repo/$fu.txt"
+                # :
             fi
         done
         cd "${root_pth}/.repo"
-        tmp="$1.txt"
+        tmp="$fu.txt"
         tchalla=$(sha1sum $tmp)
         IFS='    ' read -ra thsh <<< "$tchalla"
         # sha1sum $tmp
@@ -43,17 +48,21 @@ then
         cd snapshots
         if [[ -d ${thsh:0:2} && -f ${thsh:0:2}/${thsh:2} ]]; then
 #            echo "-1"
-            echo "-t" $thsh $1
+            echo "-t" $thsh $fu
             # echo "Directory already committed"
         else
             mkdir ${thsh:0:2}
             touch ${thsh:0:2}/${thsh:2}
-            stuff=$(cat "$pth/../.repo/$1.txt")
-            echo $stuff >> "${thsh:0:2}/${thsh:2}"
+            stuff=$(cat "$root_pth/.repo/$fu.txt")
+            # echo $stuff >> "${thsh:0:2}/${thsh:2}"
+            cat "$root_pth/.repo/$fu.txt" >> ${thsh:0:2}/${thsh:2}
+            # cat "$root_pth/.repo/$fu.txt" >> wtf.txt
+            # touch wtf.txt
+            # echo $stuff $fu >> wtf.txt
             # cat $pth/../.repo/$1 >> ${thsh:0:2}/${thsh:2}
-            echo "-t" $thsh $1
+            echo "-t" $thsh $fu
             # echo "Directory new/updated"
         fi
-        rm "$pth/../.repo/$1.txt"
+        rm "${root_pth}/.repo/$fu.txt" 
     fi
 fi
