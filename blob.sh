@@ -5,17 +5,23 @@ if [[ -d ".repo" ]]
 then
     if [[ -f $1 ]]
     then
-#        backup_dir=$(date +'%m_%d_%Y')
-        # mkdir .repo/snapshots/$backup_dir
-        # rsync -r --exclude='.repo' ./$1 .repo/snapshots/$backup_dir
-#        cd $1
-#        for FILE in *; do
+            FILE=$1
             checksum="$(sha1sum $FILE)"
             IFS=' ' read -ra hash <<< "$checksum"
-            mkdir ../.repo/snapshots/${hash:0:2}
-            touch ../.repo/snapshots/${hash:0:2}/${hash:2}
-            echo "-b" >> ../.repo/snapshots/${hash:0:2}/${hash:2}
-            cat $FILE >> ../.repo/snapshots/${hash:0:2}/${hash:2}
+            if [[ -d .repo/snapshots/${hash:0:2} && -f .repo/snapshots/${hash:0:2}/${hash:2} ]]; then
+                # echo "File already committed" $FILE
+                :
+            else
+                mkdir .repo/snapshots/${hash:0:2}
+                touch .repo/snapshots/${hash:0:2}/${hash:2}
+                stuff=$(cat $FILE)
+                echo $stuff  >> .repo/snapshots/${hash:0:2}/${hash:2}
+            fi
+            # IFS='/' read -ra path <<< "$FILE"
+            f=$(basename -- "$FILE")
+            echo "-b" $hash $f
+            # cat $FILE >> ../.repo/snapshots/${hash:0:2}/${hash:2}
+        
 #        done
     else
         echo "File Does Not exist"
