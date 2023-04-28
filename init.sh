@@ -16,6 +16,10 @@ else
         else
             mkdir -p .repo/refs/tags
             mkdir .repo/snapshots
+            mkdir .repo/commits
+            mkdir .repo/signatures
+            mkdir .repo/keys
+            touch .repo/commits/prev_com.txt
         fi
     fi
 fi

@@ -11,4 +11,4 @@ else
 #        echo '' >> .repo/index.i
     done
 fi
-cat .repo/index.i
+# cat .repo/index.i

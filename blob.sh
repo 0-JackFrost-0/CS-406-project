@@ -16,8 +16,8 @@ then
             else
                 mkdir .repo/snapshots/${hash:0:2}
                 touch .repo/snapshots/${hash:0:2}/${hash:2}
-                stuff=$(cat $FILE)
-                echo $stuff  >> .repo/snapshots/${hash:0:2}/${hash:2}
+                # stuff=$(cat $FILE)
+                cat $FILE  >> .repo/snapshots/${hash:0:2}/${hash:2}
             fi
             # IFS='/' read -ra path <<< "$FILE"
             f=$(basename -- "$FILE")
