@@ -12,8 +12,8 @@ if(not os.path.exists(server_path)):
     create_table(server_path)
 
 def main():
-    username = "alice"
-    authenticate()
+    # username = "alice"
+    username = authenticate()
     changes = os.listdir("./")
     # print(sys.argv[1])
     for change in changes:
@@ -55,7 +55,7 @@ def authenticate():
         if(register_user(username, password)):
             print("Successfully registered")
             os.system("./genkeys.sh " + username)
-            return
+            return username
         else:
             print("Failed to register")
             authenticate()
