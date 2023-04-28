@@ -6,6 +6,7 @@ from server import *
 import getpass
 import os 
 
+ignore_files = [".DS_Store", ".git", ".repo", "commit.py", "commit.sh", "blob.sh", "tree.sh", "README.md", "database", "__pycache__", "genkeys.sh", "shared_keygen.sh", "ec_encrypt.sh", "ec_decrypt.sh", "aes.py", "sha1.py", "server.py", "clientFTP.py", "serverFTP.py", "init.sh", "sign_verify.sh", ]
 server_path = "database/server.db"
 if(not os.path.exists(server_path)):
     os.system("mkdir database")
@@ -17,7 +18,8 @@ def main():
     changes = os.listdir("./")
     # print(sys.argv[1])
     for change in changes:
-        if change != ".repo" and change != ".git" and change != ".DS_Store" and change != "__pycache__" and change != "commit.py" and change != "commit.sh" and change != "blob.sh" and change != "tree.sh" and change != "README.md" and change != "database":
+        # if change != ".repo" and change != ".git" and change != ".DS_Store" and change != "__pycache__" and change != "commit.py" and change != "commit.sh" and change != "blob.sh" and change != "tree.sh" and change != "README.md" and change != "database":
+        if change not in ignore_files:
             # print(change)
             if os.path.isdir(change):
                 # print(change)
