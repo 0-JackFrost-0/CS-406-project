@@ -15,10 +15,10 @@ else
             echo "Already initialised"
         else
             mkdir -p .repo/refs/tags
-            mkdir .repo/snapshots
-            mkdir .repo/commits
-            mkdir .repo/signatures
-            mkdir .repo/keys
+            mkdir -p .repo/snapshots
+            mkdir -p .repo/commits
+            mkdir -p .repo/signatures
+            mkdir -p .repo/keys
             touch .repo/commits/prev_com.txt
         fi
     fi
