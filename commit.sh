@@ -19,6 +19,6 @@ then
         echo ${hash} > .repo/commits/prev_com.txt
 
         # create a digital signature for the commit file
-        openssl dgst -sha256 -sign $1.priv .repo/commits/$hash > .repo/signatures/$hash.sign
+        openssl dgst -sha256 -sign priv_keys/$1.priv .repo/commits/$hash > .repo/signatures/$hash.sign
     fi 
 fi
