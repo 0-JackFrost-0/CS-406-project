@@ -1,6 +1,6 @@
 #!/bin/bash
 
-openssl pkeyutl -derive -inkey $1.priv -peerkey .repo/keys/$2.pub > shared.key
+openssl pkeyutl -derive -inkey priv_keys/$1.priv -peerkey .repo/keys/$2.pub > shared.key
 # echo $3 > plain.txt
 skey="$(xxd -p shared.key)"
 skey=$(echo $skey | sed 's/ //g')
