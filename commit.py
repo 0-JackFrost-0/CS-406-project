@@ -53,7 +53,7 @@ def authenticate():
         choice = input("1. Login\n2. Sign up\nEnter your choice: ")
         if choice == "1":
             val, username = login()
-            print(val)
+            # print(val)
             if(val):
                 return username
         elif choice == "2":
